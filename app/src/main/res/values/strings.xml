@@ -3,4 +3,17 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_activity_player">PlayerActivity</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="array_totals">
+        <item>Kills</item>
+        <item>Wins</item>
+        <item>Matches Played</item>
+        <item>Minutes Played</item>
+        <item>Hours Played</item>
+        <item>Winrate</item>
+        <item>K/D</item>
+    </string-array>
+
 </resources>

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                     return loadFragment(newsFragment);
 
                 case R.id.navigation_stats:
-                    statsFragment = statsFragment == null ? new NewsFragment() : statsFragment;
+                    statsFragment = statsFragment == null ? new HomeFragment() : statsFragment;
                     return loadFragment(statsFragment);
 
                 case R.id.navigation_shop:
@@ -62,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        newsFragment = new NewsFragment();
-        loadFragment(newsFragment);
+        //newsFragment = new NewsFragment();
+        statsFragment = new HomeFragment();
+        loadFragment(statsFragment);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -121,6 +123,12 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return false;
         }
+    }
+
+    // TESTING
+    public void onButtonClick(View v) {
+        Intent intent = new Intent(this, PlayerActivity.class);
+        startActivity(intent);
     }
 
 
