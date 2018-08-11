@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                     return loadFragment(statsFragment);
 
                 case R.id.navigation_shop:
-                    shopFragment = shopFragment == null ? new HomeFragment() : shopFragment;
+                    shopFragment = shopFragment == null ? new ShopFragment() : shopFragment;
                     return loadFragment(shopFragment);
 
                 case R.id.navigation_challenges:

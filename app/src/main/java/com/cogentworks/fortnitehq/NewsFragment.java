@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.ArrayList;
 
@@ -61,7 +62,9 @@ public class NewsFragment extends Fragment {
 
             long diffInMs = Math.abs(System.currentTimeMillis() - (newsItem.time * 1000));
             long hours = diffInMs/1000/60/60;
-            if (hours < 24)
+            if (hours ==0)
+                timeText.setText(Long.toString(diffInMs/1000/60) + " minutes ago");
+            else if (hours < 24)
                 timeText.setText(Long.toString(hours) + " hours ago");
             else if (hours < 48)
                 timeText.setText("1 day ago");
@@ -70,6 +73,7 @@ public class NewsFragment extends Fragment {
 
             Glide.with(convertView)
                     .load(newsItem.image)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into((ImageView) convertView.findViewById(R.id.thumbnail));
 
             // Return the completed view to render on screen

@@ -28,7 +28,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -50,8 +50,6 @@
                         android:layout_alignStart="@id/text1"
                         android:layout_below="@id/text1" />
 
-                </LinearLayout>
-
                     <TextView
                         android:id="@+id/time"
                         android:layout_width="match_parent"
@@ -60,8 +58,11 @@
                         android:paddingEnd="12dp"
                         android:paddingTop="0dp"
                         android:textSize="12sp"
-                        android:gravity="end"
-                        android:layout_alignParentBottom="true" />
+                        android:gravity="end" />
+
+                </LinearLayout>
+
+
 
             </RelativeLayout>
 
