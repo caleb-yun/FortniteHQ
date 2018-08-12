@@ -50,6 +50,7 @@ public class NewsFragment extends Fragment {
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.news_cell, parent, false);
             }
+
             // Lookup view for data population
             TextView title = convertView.findViewById(R.id.text1);
             TextView info = convertView.findViewById(R.id.text2);

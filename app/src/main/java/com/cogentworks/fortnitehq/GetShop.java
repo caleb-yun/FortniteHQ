@@ -2,13 +2,9 @@ package com.cogentworks.fortnitehq;
 
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.util.Log;
 
 import com.android.volley.Response;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,7 +17,7 @@ public class GetShop extends GetData {
     private ShopFragment mFragment;
     private Context mContext;
 
-    public GetShop(ShopFragment fragment) {
+    public GetShop(final ShopFragment fragment) {
         super(fragment.getContext());
         mContext = fragment.getContext();
         mFragment = fragment;
@@ -33,36 +29,35 @@ public class GetShop extends GetData {
                 try {
                     JSONObject jResponse = new JSONObject(response);
                     JSONArray items = jResponse.getJSONArray("items");
-                    ArrayList<ArrayList<ShopItem>> results = new ArrayList<>();
-                    TableLayout featuredTable = mFragment.getView().findViewById(R.id.table_featured);
+                    ArrayList<ShopItem> results = new ArrayList<>();
 
-                    for (int i = 0; i < items.length(); i+=3) {
-                        ArrayList<ShopItem> row = new ArrayList<>();
-                        TableRow tableRow = (TableRow) mFragment.getLayoutInflater().inflate(R.layout.shop_row, null);
-                        featuredTable.addView(tableRow);
+                    ShopFragment.ShopAdapter adapter = ((ShopFragment.ShopAdapter) mFragment.mListView.getAdapter());
 
-                        for (int j = 0; j < 3; j++) {
-                            JSONObject currentEntry = items.getJSONObject(i+j);
-                            String name = currentEntry.getString("name");
-                            String cost = currentEntry.getString("cost");
-                            String imageUrl = currentEntry.getJSONObject("item").getJSONObject("images").getString("background");
-                            int featured = currentEntry.getInt("featured");
+                    results.add(new ShopItem("Featured Items"));
 
-                            ImageView imageView = tableRow.findViewById(getResId("image"+(j+1), R.id.class));
+                    for (int i = 0; i < items.length(); i++) {
+                        JSONObject currentEntry = items.getJSONObject(i);
 
-                            if (imageUrl != null) {
-                                Glide.with(mContext)
-                                        .load(imageUrl)
-                                        .transition(DrawableTransitionOptions.withCrossFade())
-                                        .into(imageView);
-                            }
+                        String name = currentEntry.getString("name");
+                        String cost = currentEntry.getString("cost");
+                        String imageUrl = currentEntry.getJSONObject("item").getJSONObject("images").getString("background");
+                        int featured = currentEntry.getInt("featured");
 
-                            //row.add(new ShopItem(name, cost, imageUrl, featured));
+                        ShopItem item = new ShopItem(name, cost, imageUrl, featured);
+
+                        Log.d("GetShop", name + ": " + item.featured);
+
+                        if (i != 0 && results.get(results.size()-1).featured && !item.featured) {
+                            results.add(new ShopItem("Daily Items"));
+                            Log.d("GetShop", "Daily Items");
                         }
 
-
-                        //results.add(row);
+                        results.add(item);
                     }
+
+                    mFragment.itemList.clear();
+                    mFragment.itemList.addAll(results);
+                    adapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
                     AlertDialog dialog = new AlertDialog.Builder(mContext)

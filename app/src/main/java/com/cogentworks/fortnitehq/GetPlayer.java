@@ -93,7 +93,7 @@ public class GetPlayer extends GetData {
                             ((TextView)totalsContent.findViewById(R.id.time_played)).setText(String.format(tHoursPlayed + " hr " + tMinutesPlayed + " min"));
                         }
                         ((TextView)totalsContent.findViewById(R.id.score)).setText(totals.getString("score"));
-                        ((TextView)totalsContent.findViewById(R.id.winrate)).setText(totals.getString("winrate"));
+                        ((TextView)totalsContent.findViewById(R.id.winrate)).setText(totals.getString("winrate")+"%");
                         ((TextView)totalsContent.findViewById(R.id.kd)).setText(totals.getString("kd"));
 
                         String[] modeArray = new String[] { "solo", "duo", "squad"};
@@ -124,15 +124,15 @@ public class GetPlayer extends GetData {
 
                             ((TextView)content.findViewById(R.id.matches_played)).setText(stats.getString("matchesplayed_"+mode));
                             ((TextView)content.findViewById(R.id.kd)).setText(stats.getString("kd_"+mode));
-                            ((TextView)content.findViewById(R.id.winrate)).setText(stats.getString("winrate_"+mode));
+                            ((TextView)content.findViewById(R.id.winrate)).setText(stats.getString("winrate_"+mode)+"%");
                             ((TextView)content.findViewById(R.id.score)).setText(stats.getString("score_"+mode));
                             int minutesPlayed = stats.getInt("minutesplayed_"+mode);
                             int hoursPlayed = minutesPlayed/60;
                             if (hoursPlayed == 0)
-                                ((TextView)totalsContent.findViewById(R.id.time_played)).setText(String.format(minutesPlayed + " min"));
+                                ((TextView)content.findViewById(R.id.time_played)).setText(String.format(minutesPlayed + " min"));
                             else {
                                 minutesPlayed %= hoursPlayed;
-                                ((TextView)totalsContent.findViewById(R.id.time_played)).setText(String.format(hoursPlayed + " hr " + minutesPlayed + " min"));
+                                ((TextView)content.findViewById(R.id.time_played)).setText(String.format(hoursPlayed + " hr " + minutesPlayed + " min"));
                             }
                         }
 
