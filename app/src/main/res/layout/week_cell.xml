@@ -12,14 +12,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/week_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                android:padding="16dp"/>
 
             <LinearLayout
                 android:id="@+id/challenge_list"
