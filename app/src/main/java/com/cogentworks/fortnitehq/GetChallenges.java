@@ -1,10 +1,11 @@
 package com.cogentworks.fortnitehq;
 
 import android.content.Context;
-import android.support.v7.app.AlertDialog;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.HeaderViewListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 
@@ -61,13 +62,10 @@ public class GetChallenges extends GetData {
                     mFragment.listItems.addAll(results);
                     ((BaseAdapter)((HeaderViewListAdapter)mFragment.mListView.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
 
+                } catch (WindowManager.BadTokenException e) {
+                    e.printStackTrace();
                 } catch (Exception e) {
-                    AlertDialog dialog = new AlertDialog.Builder(fContext)
-                            .setTitle("Network Error")
-                            .setNegativeButton("Ok", null)
-                            .create();
-                    dialog.show();
-
+                    Toast.makeText(fContext, "Network Error", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +36,16 @@ public class PlayerActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout tabLayout;
 
+    public static final String EXTRA_PLAYER_ID = "player_uid";
+    public static final String EXTRA_PLAYER_NAME = "player_name";
+    public static final String EXTRA_PLAYER_PLATFORM = "player_platform";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+
+        setTitle(getIntent().getStringExtra(EXTRA_PLAYER_NAME));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,8 +67,13 @@ public class PlayerActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-
-        new GetPlayer(this, "Slywee05", true).execute();
+        String playerId = getIntent().getStringExtra(EXTRA_PLAYER_ID);
+        String platform = getIntent().getStringExtra(EXTRA_PLAYER_PLATFORM);
+        if (playerId == null || platform == null) {
+            Toast.makeText(getBaseContext(), "Player not found", Toast.LENGTH_LONG).show();
+            finish();
+        } else
+            new GetPlayerStats(this, playerId, platform, true).execute();
 
     }
 

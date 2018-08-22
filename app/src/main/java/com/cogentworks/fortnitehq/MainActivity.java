@@ -1,5 +1,9 @@
 package com.cogentworks.fortnitehq;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +16,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        //newsFragment = new NewsFragment();
-        statsFragment = new HomeFragment();
-        loadFragment(statsFragment);
+        newsFragment = new NewsFragment();
+        //statsFragment = new HomeFragment();
+        loadFragment(newsFragment);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -125,10 +132,99 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // TESTING
-    public void onButtonClick(View v) {
+
+    public void onMoreClick(View v) {
         Intent intent = new Intent(this, PlayerActivity.class);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        intent.putExtra(PlayerActivity.EXTRA_PLAYER_ID, sharedPrefs.getString(HomeFragment.PREF_UID, null));
+        intent.putExtra(PlayerActivity.EXTRA_PLAYER_PLATFORM, sharedPrefs.getString(HomeFragment.PREF_PLATFORM, null));
+        intent.putExtra(PlayerActivity.EXTRA_PLAYER_NAME, sharedPrefs.getString(HomeFragment.PREF_NAME, null));
         startActivity(intent);
+    }
+
+    public void onAddPlayer(View v) {
+        final Context context = this;
+        final View dialogView = getLayoutInflater().inflate(R.layout.dialog_configure, null);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Add Player")
+                .setView(dialogView)
+                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText editText = dialogView.findViewById(R.id.config_username);
+                        String username = String.valueOf(editText.getText());
+                        Spinner platformSpinner = dialogView.findViewById(R.id.spinner_platform);
+                        String platform = platformSpinner.getSelectedItem().toString();
+
+                        new GetPlayer.GetPlayerUid(context, username, platform.toLowerCase()).execute();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
+
+        Spinner regionSpinner = dialogView.findViewById(R.id.spinner_platform);
+        ArrayAdapter<CharSequence> regionAdapter = ArrayAdapter.createFromResource(this, R.array.array_platform, android.R.layout.simple_spinner_item);
+        regionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        regionSpinner.setAdapter(regionAdapter);
+    }
+
+    public void onRemovePlayer(View v) {
+        final Activity activity = this;
+        final View dialogView = getLayoutInflater().inflate(R.layout.dialog_configure, null);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Remove Player")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
+                        sharedPrefs.edit().remove(HomeFragment.PREF_UID).apply();
+                        sharedPrefs.edit().remove(HomeFragment.PREF_NAME).apply();
+                        sharedPrefs.edit().remove(HomeFragment.PREF_PLATFORM).apply();
+
+                        activity.findViewById(R.id.player_container).setVisibility(View.GONE);
+                        activity.findViewById(R.id.button_add).setVisibility(View.VISIBLE);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
+
+        Spinner regionSpinner = dialogView.findViewById(R.id.spinner_platform);
+        ArrayAdapter<CharSequence> regionAdapter = ArrayAdapter.createFromResource(this, R.array.array_platform, android.R.layout.simple_spinner_item);
+        regionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        regionSpinner.setAdapter(regionAdapter);
+    }
+
+    public void onSearchPlayer(View v) {
+
+        final Context context = this;
+        final View dialogView = getLayoutInflater().inflate(R.layout.dialog_configure, null);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Search")
+                .setView(dialogView)
+                .setPositiveButton("Search", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText editText = dialogView.findViewById(R.id.config_username);
+                        String username = String.valueOf(editText.getText());
+                        Spinner platformSpinner = dialogView.findViewById(R.id.spinner_platform);
+                        String platform = platformSpinner.getSelectedItem().toString();
+
+                        new GetPlayer(context, username, platform.toLowerCase(), true).execute();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
+
+        Spinner regionSpinner = dialogView.findViewById(R.id.spinner_platform);
+        ArrayAdapter<CharSequence> regionAdapter = ArrayAdapter.createFromResource(this, R.array.array_platform, android.R.layout.simple_spinner_item);
+        regionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        regionSpinner.setAdapter(regionAdapter);
+
+
     }
 
 

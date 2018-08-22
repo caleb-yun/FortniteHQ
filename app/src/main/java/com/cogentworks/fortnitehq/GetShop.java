@@ -1,8 +1,9 @@
 package com.cogentworks.fortnitehq;
 
 import android.content.Context;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 
@@ -59,13 +60,10 @@ public class GetShop extends GetData {
                     mFragment.itemList.addAll(results);
                     adapter.notifyDataSetChanged();
 
+                } catch (WindowManager.BadTokenException e) {
+                    e.printStackTrace();
                 } catch (Exception e) {
-                    AlertDialog dialog = new AlertDialog.Builder(mContext)
-                            .setTitle("Network Error")
-                            .setNegativeButton("Ok", null)
-                            .create();
-                    dialog.show();
-
+                    Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 

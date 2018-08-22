@@ -16,6 +16,11 @@
         <item>Winrate</item>
         <item>K/D</item>
     </string-array>
-    <string name="section_format">Hello World from section: %1$d</string>
+
+    <string-array name="array_platform">
+        <item>PC</item>
+        <item>XBL</item>
+        <item>PSN</item>
+    </string-array>
 
 </resources>

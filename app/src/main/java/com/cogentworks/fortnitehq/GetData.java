@@ -2,7 +2,7 @@ package com.cogentworks.fortnitehq;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,12 +37,7 @@ public abstract class GetData extends AsyncTask<String, Void, Void> {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // Error
-                AlertDialog dialog = new AlertDialog.Builder(context)
-                        .setTitle("Network Error")
-                        .setMessage(error.getMessage())
-                        .setNegativeButton("Ok", null)
-                        .create();
-                dialog.show();
+                Toast.makeText(context, "Network Error", Toast.LENGTH_SHORT).show();
             }
         }
         ) {
