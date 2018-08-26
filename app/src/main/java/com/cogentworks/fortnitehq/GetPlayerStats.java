@@ -3,7 +3,6 @@ package com.cogentworks.fortnitehq;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -98,7 +97,7 @@ public class GetPlayerStats extends GetData {
                     activity.findViewById(R.id.container).setVisibility(View.VISIBLE);
                     activity.findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
-                } catch (WindowManager.BadTokenException e) {
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
                     Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();

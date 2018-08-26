@@ -2,6 +2,8 @@ package com.cogentworks.fortnitehq;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -57,6 +59,10 @@ public abstract class GetData extends AsyncTask<String, Void, Void> {
 
         queue.add(request);
         return null;
+    }
+
+    protected void hideProgressBar(Fragment fragment) {
+        fragment.getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }
 
 }

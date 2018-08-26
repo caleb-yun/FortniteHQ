@@ -48,6 +48,8 @@ public class GetNews extends GetData {
                 } catch (Exception e) {
                     Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                } finally {
+                    hideProgressBar(mFragment);
                 }
 
             }

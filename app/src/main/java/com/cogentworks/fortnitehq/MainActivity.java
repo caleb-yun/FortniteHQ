@@ -22,12 +22,14 @@ import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity {
 
+    Fragment currentFragment = null;
+
     Fragment newsFragment = null;
     Fragment statsFragment = null;
     Fragment shopFragment = null;
     Fragment challengesFragment = null;
 
-    private final static String PREF_DARK_THEME = "dark_theme";
+    public final static String PREF_DARK_THEME = "dark_theme";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -37,19 +39,31 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_news:
-                    newsFragment = newsFragment == null ? new NewsFragment() : newsFragment;
+                    if (newsFragment == null) {
+                        newsFragment = new NewsFragment();
+                        return loadFragment(newsFragment, true);
+                    }
                     return loadFragment(newsFragment);
 
                 case R.id.navigation_stats:
-                    statsFragment = statsFragment == null ? new HomeFragment() : statsFragment;
+                    if (statsFragment == null) {
+                        statsFragment = new HomeFragment();
+                        return loadFragment(statsFragment, true);
+                    }
                     return loadFragment(statsFragment);
 
                 case R.id.navigation_shop:
-                    shopFragment = shopFragment == null ? new ShopFragment() : shopFragment;
+                    if (shopFragment == null) {
+                        shopFragment = new ShopFragment();
+                        return loadFragment(shopFragment, true);
+                    }
                     return loadFragment(shopFragment);
 
                 case R.id.navigation_challenges:
-                    challengesFragment = challengesFragment == null ? new ChallengesFragment() : challengesFragment;
+                    if (challengesFragment == null) {
+                        challengesFragment = new ChallengesFragment();
+                        return loadFragment(challengesFragment, true);
+                    }
                     return loadFragment(challengesFragment);
 
                 default:
@@ -71,24 +85,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         newsFragment = new NewsFragment();
-        //statsFragment = new HomeFragment();
-        loadFragment(newsFragment);
+        currentFragment = newsFragment;
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, newsFragment)
+                .commit();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
 
-
     private boolean loadFragment(Fragment fragment) {
-        //switching fragment
+        return loadFragment(fragment, false);
+    }
+
+    private boolean loadFragment(Fragment fragment, boolean add) {
         if (fragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
+            if (add) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .hide(currentFragment)
+                        .add(R.id.fragment_container, fragment)
+                        .commit();
+            } else {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .hide(currentFragment)
+                        .show(fragment)
+                        .commit();
+            }
+            currentFragment = fragment;
             return true;
         }
+
         return false;
     }
 

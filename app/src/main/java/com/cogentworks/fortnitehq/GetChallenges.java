@@ -67,6 +67,8 @@ public class GetChallenges extends GetData {
                 } catch (Exception e) {
                     Toast.makeText(fContext, "Network Error", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                } finally {
+                    hideProgressBar(mFragment);
                 }
 
             }

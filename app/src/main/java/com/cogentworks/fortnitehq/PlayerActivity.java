@@ -1,6 +1,8 @@
 package com.cogentworks.fortnitehq;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -43,6 +45,12 @@ public class PlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean useDarkTheme = sharedPrefs.getBoolean(MainActivity.PREF_DARK_THEME, false);
+        if (useDarkTheme)
+            setTheme(R.style.AppDarkTheme_NoActionBar);
+
         setContentView(R.layout.activity_player);
 
         setTitle(getIntent().getStringExtra(EXTRA_PLAYER_NAME));
@@ -50,6 +58,8 @@ public class PlayerActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (useDarkTheme)
+            findViewById(R.id.app_bar_layout).getContext().setTheme(R.style.AppDarkTheme);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
