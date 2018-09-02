@@ -81,9 +81,9 @@ public class GetPlayer extends GetData {
                         JSONArray platforms = jResponse.getJSONArray("platforms");
 
                         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-                        sharedPrefs.edit().putString(HomeFragment.PREF_UID, jResponse.getString("uid")).apply();
+                        sharedPrefs.edit().putString(PlayerFragment.PREF_UID, jResponse.getString("uid")).apply();
 
-                        sharedPrefs.edit().putString(HomeFragment.PREF_NAME, username).apply();
+                        sharedPrefs.edit().putString(PlayerFragment.PREF_NAME, username).apply();
                         ((TextView) activity.findViewById(R.id.username)).setText(username);
 
 
@@ -93,7 +93,7 @@ public class GetPlayer extends GetData {
                         if (!list.contains(platform))
                             throw new Exception();
                         else {
-                            sharedPrefs.edit().putString(HomeFragment.PREF_PLATFORM, platform).apply();
+                            sharedPrefs.edit().putString(PlayerFragment.PREF_PLATFORM, platform).apply();
                             ((TextView) activity.findViewById(R.id.platform)).setText(platform);
                         }
 

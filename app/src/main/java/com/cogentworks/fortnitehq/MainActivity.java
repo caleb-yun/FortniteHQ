@@ -40,14 +40,14 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_news:
                     if (newsFragment == null) {
-                        newsFragment = new NewsFragment();
+                        newsFragment = new HomeFragment();
                         return loadFragment(newsFragment, true);
                     }
                     return loadFragment(newsFragment);
 
                 case R.id.navigation_stats:
                     if (statsFragment == null) {
-                        statsFragment = new HomeFragment();
+                        statsFragment = new PlayerFragment();
                         return loadFragment(statsFragment, true);
                     }
                     return loadFragment(statsFragment);
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        newsFragment = new NewsFragment();
+        newsFragment = new HomeFragment();
         currentFragment = newsFragment;
         getSupportFragmentManager()
                 .beginTransaction()
@@ -166,9 +166,9 @@ public class MainActivity extends AppCompatActivity {
     public void onMoreClick(View v) {
         Intent intent = new Intent(this, PlayerActivity.class);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        intent.putExtra(PlayerActivity.EXTRA_PLAYER_ID, sharedPrefs.getString(HomeFragment.PREF_UID, null));
-        intent.putExtra(PlayerActivity.EXTRA_PLAYER_PLATFORM, sharedPrefs.getString(HomeFragment.PREF_PLATFORM, null));
-        intent.putExtra(PlayerActivity.EXTRA_PLAYER_NAME, sharedPrefs.getString(HomeFragment.PREF_NAME, null));
+        intent.putExtra(PlayerActivity.EXTRA_PLAYER_ID, sharedPrefs.getString(PlayerFragment.PREF_UID, null));
+        intent.putExtra(PlayerActivity.EXTRA_PLAYER_PLATFORM, sharedPrefs.getString(PlayerFragment.PREF_PLATFORM, null));
+        intent.putExtra(PlayerActivity.EXTRA_PLAYER_NAME, sharedPrefs.getString(PlayerFragment.PREF_NAME, null));
         startActivity(intent);
     }
 
@@ -209,9 +209,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
-                        sharedPrefs.edit().remove(HomeFragment.PREF_UID).apply();
-                        sharedPrefs.edit().remove(HomeFragment.PREF_NAME).apply();
-                        sharedPrefs.edit().remove(HomeFragment.PREF_PLATFORM).apply();
+                        sharedPrefs.edit().remove(PlayerFragment.PREF_UID).apply();
+                        sharedPrefs.edit().remove(PlayerFragment.PREF_NAME).apply();
+                        sharedPrefs.edit().remove(PlayerFragment.PREF_PLATFORM).apply();
 
                         activity.findViewById(R.id.player_container).setVisibility(View.GONE);
                         activity.findViewById(R.id.button_add).setVisibility(View.VISIBLE);
@@ -256,6 +256,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
 
 }
