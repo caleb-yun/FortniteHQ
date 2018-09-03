@@ -1,6 +1,7 @@
 package com.cogentworks.fortnitehq;
 
 import android.content.Context;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
@@ -26,8 +27,16 @@ public class GetNews extends GetData {
         responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                String errorMsg = null;
                 try {
                     JSONObject jResponse = new JSONObject(response);
+
+                    try {
+                        errorMsg = jResponse.getString("errorMessage");
+                    } catch (Exception e) {
+                        errorMsg = null;
+                    }
+
                     JSONArray entries = jResponse.getJSONArray("entries");
                     ArrayList<NewsItem> results = new ArrayList<NewsItem>();
                     for (int i = 0; i < entries.length(); i++) {
@@ -43,10 +52,16 @@ public class GetNews extends GetData {
                     mFragment.listItems.addAll(results);
                     ((BaseAdapter)mFragment.mListView.getAdapter()).notifyDataSetChanged();
 
+
+
                 } catch (WindowManager.BadTokenException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
-                    Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
+                    if (errorMsg == null)
+                        Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(mContext, errorMsg, Toast.LENGTH_SHORT).show();
+                    mFragment.getView().findViewById(R.id.error).setVisibility(View.VISIBLE);
                     e.printStackTrace();
                 } finally {
                     hideProgressBar(mFragment);
