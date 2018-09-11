@@ -1,4 +1,4 @@
-package com.cogentworks.fortnitehq;
+package com.cogentworks.fnhq;
 
 public class ShopItem {
 

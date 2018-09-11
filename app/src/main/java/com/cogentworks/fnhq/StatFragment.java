@@ -1,4 +1,4 @@
-package com.cogentworks.fortnitehq;
+package com.cogentworks.fnhq;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

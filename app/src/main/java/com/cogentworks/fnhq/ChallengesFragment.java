@@ -1,4 +1,4 @@
-package com.cogentworks.fortnitehq;
+package com.cogentworks.fnhq;
 
 import android.content.Context;
 import android.os.Bundle;

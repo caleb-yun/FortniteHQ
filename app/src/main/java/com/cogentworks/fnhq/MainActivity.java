@@ -1,4 +1,4 @@
-package com.cogentworks.fortnitehq;
+package com.cogentworks.fnhq;
 
 import android.app.Activity;
 import android.app.AlertDialog;

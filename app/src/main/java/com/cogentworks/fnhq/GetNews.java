@@ -1,6 +1,7 @@
-package com.cogentworks.fortnitehq;
+package com.cogentworks.fnhq;
 
 import android.content.Context;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
@@ -12,42 +13,55 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class GetPatch extends GetData {
+public class GetNews extends GetData {
 
-    private PatchFragment mFragment;
+    private NewsFragment mFragment;
     private Context mContext;
 
-    public GetPatch(Context context, PatchFragment fragment) {
+    public GetNews(Context context, NewsFragment fragment) {
         super(context);
         mContext = context;
         mFragment = fragment;
-        endpoint = "https://fortnite-public-api.theapinetwork.com/prod09/patchnotes/get";
+        endpoint = "https://fortnite-public-api.theapinetwork.com/prod09/br_motd/get";
 
         responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                String errorMsg = null;
                 try {
                     JSONObject jResponse = new JSONObject(response);
-                    JSONArray entries = jResponse.getJSONArray("blogList");
+
+                    try {
+                        errorMsg = jResponse.getString("errorMessage");
+                    } catch (Exception e) {
+                        errorMsg = null;
+                    }
+
+                    JSONArray entries = jResponse.getJSONArray("entries");
                     ArrayList<NewsItem> results = new ArrayList<NewsItem>();
                     for (int i = 0; i < entries.length(); i++) {
                         JSONObject currentEntry = entries.getJSONObject(i);
                         NewsItem newsItem = new NewsItem(
                                 currentEntry.getString("title"),
-                                currentEntry.getString("shareDescription"),
+                                currentEntry.getString("body"),
                                 currentEntry.getString("image"),
-                                currentEntry.getString("date"),
-                                "https://www.epicgames.com/fortnite" + currentEntry.getString("externalLink"));
+                                currentEntry.getInt("time"));
                         results.add(newsItem);
                     }
                     mFragment.listItems.clear();
                     mFragment.listItems.addAll(results);
                     ((BaseAdapter)mFragment.mListView.getAdapter()).notifyDataSetChanged();
 
+
+
                 } catch (WindowManager.BadTokenException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
-                    Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
+                    if (errorMsg == null)
+                        Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(mContext, errorMsg, Toast.LENGTH_SHORT).show();
+                    mFragment.getView().findViewById(R.id.error).setVisibility(View.VISIBLE);
                     e.printStackTrace();
                 } finally {
                     hideProgressBar(mFragment);
