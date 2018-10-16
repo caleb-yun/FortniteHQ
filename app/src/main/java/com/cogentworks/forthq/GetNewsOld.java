@@ -1,4 +1,4 @@
-package com.cogentworks.fnhq;
+package com.cogentworks.forthq;
 
 import android.content.Context;
 import android.view.View;
@@ -13,12 +13,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class GetNews extends GetData {
+public class GetNewsOld extends GetData {
 
     private NewsFragment mFragment;
     private Context mContext;
 
-    public GetNews(Context context, NewsFragment fragment) {
+    public GetNewsOld(Context context, NewsFragment fragment) {
         super(context);
         mContext = context;
         mFragment = fragment;

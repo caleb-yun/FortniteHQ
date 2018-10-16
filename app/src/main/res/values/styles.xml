@@ -7,12 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionBarStyle">@style/ActionBarTheme</item>
+        <item name="android:colorEdgeEffect" tools:targetApi="21">@color/colorAccent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
     </style>
 
     <style name="AppDarkTheme" parent="Theme.AppCompat">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionBarStyle">@style/ActionBarTheme</item>
+        <item name="android:colorEdgeEffect" tools:targetApi="21">@color/colorAccent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
     </style>
 

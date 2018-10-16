@@ -1,4 +1,4 @@
-package com.cogentworks.fnhq;
+package com.cogentworks.forthq;
 
 import android.content.Context;
 import android.content.res.Resources;

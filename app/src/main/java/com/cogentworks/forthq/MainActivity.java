@@ -1,4 +1,4 @@
-package com.cogentworks.fnhq;
+package com.cogentworks.forthq;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_news:
                     if (newsFragment == null) {
-                        newsFragment = new HomeFragment();
+                        newsFragment = new NewsFragment();
                         return loadFragment(newsFragment, true);
                     }
                     return loadFragment(newsFragment);
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        newsFragment = new HomeFragment();
+        newsFragment = new NewsFragment();
         currentFragment = newsFragment;
         getSupportFragmentManager()
                 .beginTransaction()

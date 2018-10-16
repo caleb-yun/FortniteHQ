@@ -1,4 +1,4 @@
-package com.cogentworks.fnhq;
+package com.cogentworks.forthq;
 
 public class NewsItem {
 
@@ -8,6 +8,8 @@ public class NewsItem {
     public String url;
     public String date;
     public long time;
+
+    public NewsItem () {}
 
     public NewsItem(String title, String body, String image, long time) {
         this.title = title;

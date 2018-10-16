@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cogentworks.fnhq">
+    package="com.cogentworks.forthq">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -30,7 +30,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.cogentworks.fnhq.MainActivity" />
+                android:value="com.cogentworks.forthq.MainActivity" />
         </activity>
     </application>
 

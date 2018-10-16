@@ -1,4 +1,4 @@
-package com.cogentworks.fnhq;
+package com.cogentworks.forthq;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;

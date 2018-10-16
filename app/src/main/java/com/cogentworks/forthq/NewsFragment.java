@@ -1,8 +1,11 @@
-package com.cogentworks.fnhq;
+package com.cogentworks.forthq;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +32,9 @@ public class NewsFragment extends Fragment {
         mListView = view.findViewById(R.id.list);
         mListView.setAdapter(new NewsAdapter(view.getContext(), listItems));
 
+        //new GetNewsOld(view.getContext(), this).execute();
         new GetNews(view.getContext(), this).execute();
+
         return view;
     }
 
@@ -41,7 +46,7 @@ public class NewsFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
-            NewsItem newsItem = getItem(position);
+            final NewsItem newsItem = getItem(position);
 
             if (newsItem == null)
                 return null;
@@ -61,7 +66,7 @@ public class NewsFragment extends Fragment {
             info.setText(newsItem.body);
 
 
-            long diffInMs = Math.abs(System.currentTimeMillis() - (newsItem.time * 1000));
+            /*long diffInMs = Math.abs(System.currentTimeMillis() - (newsItem.time * 1000));
             long hours = diffInMs/1000/60/60;
             if (hours ==0)
                 timeText.setText(Long.toString(diffInMs/1000/60) + " minutes ago");
@@ -70,12 +75,24 @@ public class NewsFragment extends Fragment {
             else if (hours < 48)
                 timeText.setText("1 day ago");
             else
-                timeText.setText(Long.toString(hours/24) + " days ago");
+                timeText.setText(Long.toString(hours/24) + " days ago");*/
 
             Glide.with(convertView)
                     .load(newsItem.image)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into((ImageView) convertView.findViewById(R.id.thumbnail));
+
+            final Context context = convertView.getContext();
+            final Resources resources = context.getResources();
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setToolbarColor(resources.getColor(R.color.colorAccent));
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    customTabsIntent.launchUrl(context, Uri.parse("https://www.epicgames.com" + newsItem.url));
+                }
+            });
 
             // Return the completed view to render on screen
             return convertView;
