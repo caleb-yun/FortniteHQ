@@ -42,11 +42,13 @@ public class GetShop extends GetData {
                         String name = currentEntry.getString("name");
                         String cost = currentEntry.getString("cost");
                         String imageUrl = currentEntry.getJSONObject("item").getJSONObject("images").getString("background");
+                        String featuredUrl = currentEntry.getJSONObject("item").getJSONObject("images").getJSONObject("featured").getString("background");
                         int featured = currentEntry.getInt("featured");
 
-                        ShopItem item = new ShopItem(name, cost, imageUrl, featured);
+                        ShopItem item = new ShopItem(name, cost, imageUrl, featuredUrl, featured);
 
                         Log.d("GetShop", name + ": " + item.featured);
+                        Log.d("GetShop", featuredUrl);
 
                         if (i != 0 && results.get(results.size()-1).featured && !item.featured) {
                             results.add(new ShopItem("Daily Items"));

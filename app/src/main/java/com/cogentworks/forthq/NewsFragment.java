@@ -77,11 +77,6 @@ public class NewsFragment extends Fragment {
             else
                 timeText.setText(Long.toString(hours/24) + " days ago");*/
 
-            Glide.with(convertView)
-                    .load(newsItem.image)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into((ImageView) convertView.findViewById(R.id.thumbnail));
-
             final Context context = convertView.getContext();
             final Resources resources = context.getResources();
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +88,11 @@ public class NewsFragment extends Fragment {
                     customTabsIntent.launchUrl(context, Uri.parse("https://www.epicgames.com" + newsItem.url));
                 }
             });
+
+            Glide.with(convertView)
+                    .load(newsItem.image)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into((ImageView) convertView.findViewById(R.id.thumbnail));
 
             // Return the completed view to render on screen
             return convertView;

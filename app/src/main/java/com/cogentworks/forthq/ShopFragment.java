@@ -1,6 +1,8 @@
 package com.cogentworks.forthq;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -43,7 +45,7 @@ public class ShopFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ShopItem shopItem = getItem(position);
+            final ShopItem shopItem = getItem(position);
 
             if (shopItem == null)
                 return null;
@@ -69,6 +71,39 @@ public class ShopFragment extends Fragment {
                         .load(shopItem.imageUrl)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(image);
+
+                final Context context = convertView.getContext();
+                final Resources resources = context.getResources();
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            final View dialogView = getLayoutInflater().inflate(R.layout.dialog_shop, null);
+                            AlertDialog dialog = new AlertDialog.Builder(context)
+                                    .setTitle(shopItem.name)
+                                    .setView(dialogView)
+                                    .setNegativeButton("Close", null)
+                                    .create();
+                            dialog.show();
+
+                            ((TextView)dialogView.findViewById(R.id.cost)).setText(shopItem.cost);
+
+                            String imgUrl;
+                            if (!shopItem.featuredImg.equals("null"))
+                                imgUrl = shopItem.featuredImg;
+                            else
+                                imgUrl = shopItem.imageUrl;
+
+                            Glide.with(context)
+                                    .load(imgUrl)
+                                    .transition(DrawableTransitionOptions.withCrossFade())
+                                    .into((ImageView)dialogView.findViewById(R.id.image));
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
 
             return convertView;
