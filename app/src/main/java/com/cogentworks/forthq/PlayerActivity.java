@@ -36,7 +36,7 @@ public class PlayerActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout tabLayout;
 
-    public static final String EXTRA_PLAYER_ID = "player_uid";
+    //public static final String EXTRA_PLAYER_ID = "player_uid";
     public static final String EXTRA_PLAYER_NAME = "player_name";
     public static final String EXTRA_PLAYER_PLATFORM = "player_platform";
 
@@ -75,13 +75,14 @@ public class PlayerActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        String playerId = getIntent().getStringExtra(EXTRA_PLAYER_ID);
+        //String playerId = getIntent().getStringExtra(EXTRA_PLAYER_ID);
         String platform = getIntent().getStringExtra(EXTRA_PLAYER_PLATFORM);
-        if (playerId == null || platform == null) {
+        String username = getIntent().getStringExtra(EXTRA_PLAYER_NAME);
+        if (username == null || platform == null) {
             Toast.makeText(getBaseContext(), "Player not found", Toast.LENGTH_LONG).show();
             finish();
         } else
-            new GetPlayerStats(this, playerId, platform, true).execute();
+            new GetPlayerStats(this, username, platform).execute();
 
     }
 

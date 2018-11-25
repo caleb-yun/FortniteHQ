@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     public void onMoreClick(View v) {
         Intent intent = new Intent(this, PlayerActivity.class);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        intent.putExtra(PlayerActivity.EXTRA_PLAYER_ID, sharedPrefs.getString(PlayerFragment.PREF_UID, null));
+        //intent.putExtra(PlayerActivity.EXTRA_PLAYER_ID, sharedPrefs.getString(PlayerFragment.PREF_UID, null));
         intent.putExtra(PlayerActivity.EXTRA_PLAYER_PLATFORM, sharedPrefs.getString(PlayerFragment.PREF_PLATFORM, null));
         intent.putExtra(PlayerActivity.EXTRA_PLAYER_NAME, sharedPrefs.getString(PlayerFragment.PREF_NAME, null));
         startActivity(intent);
@@ -174,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAddPlayer(View v) {
         final Context context = this;
+        final Activity activity = this;
         final View dialogView = getLayoutInflater().inflate(R.layout.dialog_configure, null);
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Add Player")
@@ -186,7 +188,14 @@ public class MainActivity extends AppCompatActivity {
                         Spinner platformSpinner = dialogView.findViewById(R.id.spinner_platform);
                         String platform = platformSpinner.getSelectedItem().toString();
 
-                        new GetPlayer.GetPlayerUid(context, username, platform.toLowerCase()).execute();
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+                        sharedPrefs.edit().putString(PlayerFragment.PREF_NAME, username).apply();
+                        sharedPrefs.edit().putString(PlayerFragment.PREF_PLATFORM, platform).apply();
+
+                        ((TextView) activity.findViewById(R.id.username)).setText(username);
+                        ((TextView) activity.findViewById(R.id.platform)).setText(platform);
+                        activity.findViewById(R.id.player_container).setVisibility(View.VISIBLE);
+                        activity.findViewById(R.id.button_add).setVisibility(View.GONE);
                     }
                 })
                 .setNegativeButton("Cancel", null)
@@ -209,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
-                        sharedPrefs.edit().remove(PlayerFragment.PREF_UID).apply();
+                        //sharedPrefs.edit().remove(PlayerFragment.PREF_UID).apply();
                         sharedPrefs.edit().remove(PlayerFragment.PREF_NAME).apply();
                         sharedPrefs.edit().remove(PlayerFragment.PREF_PLATFORM).apply();
 
@@ -242,7 +251,11 @@ public class MainActivity extends AppCompatActivity {
                         Spinner platformSpinner = dialogView.findViewById(R.id.spinner_platform);
                         String platform = platformSpinner.getSelectedItem().toString();
 
-                        new GetPlayer(context, username, platform.toLowerCase(), true).execute();
+                        Intent intent = new Intent(context, PlayerActivity.class);
+                        intent.putExtra(PlayerActivity.EXTRA_PLAYER_NAME, username);
+                        intent.putExtra(PlayerActivity.EXTRA_PLAYER_PLATFORM, platform);
+                        context.startActivity(intent);
+
                     }
                 })
                 .setNegativeButton("Cancel", null)

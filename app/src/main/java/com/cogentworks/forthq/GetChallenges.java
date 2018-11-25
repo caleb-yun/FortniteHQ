@@ -23,8 +23,8 @@ public class GetChallenges extends GetData {
         super(context);
         final Context fContext = context;
         mFragment = fragment;
-        endpoint = "https://fortnite-public-api.theapinetwork.com/prod09/challenges/get";
-        params.put("season", "current");
+        endpoint = "https://fortnite-public-api.theapinetwork.com/prod09/challenges/get?season=current";
+        //params.put("season", "current");
 
         responseListener = new Response.Listener<String>() {
             @Override

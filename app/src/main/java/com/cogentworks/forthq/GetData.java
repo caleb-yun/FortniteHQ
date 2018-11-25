@@ -35,7 +35,7 @@ public abstract class GetData extends AsyncTask<String, Void, Void> {
         RequestQueue queue = Volley.newRequestQueue(context);
 
         String url = endpoint;
-        StringRequest request = new StringRequest(Request.Method.POST, url, responseListener, new Response.ErrorListener() {
+        StringRequest request = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // Error
@@ -46,13 +46,12 @@ public abstract class GetData extends AsyncTask<String, Void, Void> {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "58498a34ef21b56e7d7bffc610ab8ab8");
+                params.put("TRN-Api-Key", "26a39dc9-31ff-45a3-84cb-6b1eedfbcdad");
                 return params;
             }
 
             @Override
             protected Map<String,String> getParams() {
-                params.put("language", "en");
                 return params;
             }
         };
