@@ -8,6 +8,7 @@ public class NewsItem {
     public String url;
     public String date;
     public long time;
+    public boolean featured;
 
     public NewsItem () {}
 

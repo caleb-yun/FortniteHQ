@@ -68,7 +68,7 @@ public class ChallengesFragment extends Fragment {
 
             // Populate the data into the template view using the data object
             title.setText("Week " + (listItems.size() - position));
-            Log.d("ChallengesFragment", "Children: " + list.getChildCount());
+            //Log.d("ChallengesFragment", "Children: " + list.getChildCount());
             if (list.getChildCount() == 0) {
                 for (ChallengeItem item : items) {
                     View row = LinearLayout.inflate(getContext(), R.layout.challenge_cell, null);

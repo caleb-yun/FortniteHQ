@@ -6,8 +6,8 @@ android {
         applicationId "com.cogentworks.forthq"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 5
-        versionName "0.2.2"
+        versionCode 7
+        versionName "0.3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

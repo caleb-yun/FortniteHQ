@@ -48,13 +48,13 @@ public class GetPlayerStats extends GetData {
                         tMinutesPlayed %= tHoursPlayed;
                         ((TextView)totalsContent.findViewById(R.id.time_played)).setText(String.format(tHoursPlayed + " hr " + tMinutesPlayed + " min"));
                     }*/
-                    ((TextView)totalsContent.findViewById(R.id.score)).setText(totals.getString(6));
-                    ((TextView)totalsContent.findViewById(R.id.winrate)).setText(totals.getJSONObject(9).getString("value")+"%");
+                    ((TextView)totalsContent.findViewById(R.id.score)).setText(totals.getJSONObject(6).getString("value"));
+                    ((TextView)totalsContent.findViewById(R.id.winrate)).setText(totals.getJSONObject(9).getString("value"));
                     ((TextView)totalsContent.findViewById(R.id.kd)).setText(totals.getJSONObject(11).getString("value"));
 
                     //String[] modeArray = new String[] { "solo", "duo", "squad"};
                     // Solo, Duo, Squad
-                    for (int i = 0; i < stats.names().length(); i++) {
+                    for (int i = 0; i < 3; i++) {
 
                         View content = activity.pagerAdapter.mFragmentList.get(i+1).getView();
                         JSONObject mode = stats.getJSONObject(stats.names().getString(i));

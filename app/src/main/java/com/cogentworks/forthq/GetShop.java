@@ -47,8 +47,8 @@ public class GetShop extends GetData {
 
                         ShopItem item = new ShopItem(name, cost, imageUrl, featuredUrl, featured);
 
-                        Log.d("GetShop", name + ": " + item.featured);
-                        Log.d("GetShop", featuredUrl);
+                        //Log.d("GetShop", name + ": " + item.featured);
+                        //Log.d("GetShop", featuredUrl);
 
                         if (i != 0 && results.get(results.size()-1).featured && !item.featured) {
                             results.add(new ShopItem("Daily Items"));

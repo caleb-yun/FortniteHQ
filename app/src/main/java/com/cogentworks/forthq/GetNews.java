@@ -44,8 +44,10 @@ public class GetNews extends AsyncTask<String, Void, Void> {
                 NewsItem item = new NewsItem();
                 item.image = StringUtils.substringBetween(post.select(".background-image,.feature-image").attr("style"), "url(", ")");
                 item.title = post.selectFirst("h1,h2").text();
-                item.body = post.selectFirst(".date,.feature-date").text();
                 item.url = post.attr("href");
+                Element date = post.selectFirst(".date,.feature-date");
+                item.body = date.text();
+                item.featured = date.hasClass("feature-date");
 
                 results.add(item);
             }

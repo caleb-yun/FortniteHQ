@@ -44,6 +44,19 @@ public class NewsFragment extends Fragment {
         }
 
         @Override
+        public int getViewTypeCount() {
+            return 2;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (getItem(position).featured)
+                return 1;
+            else
+                return 0;
+        }
+
+        @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
             final NewsItem newsItem = getItem(position);
@@ -53,17 +66,20 @@ public class NewsFragment extends Fragment {
 
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.news_cell, parent, false);
-            }
+                if (newsItem.featured)
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.news_cell_featured, parent, false);
+                else
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.news_cell, parent, false);
 
-            // Lookup view for data population
-            TextView title = convertView.findViewById(R.id.text1);
-            TextView info = convertView.findViewById(R.id.text2);
-            TextView timeText = convertView.findViewById(R.id.time);
 
-            // Populate the data into the template view using the data object
-            title.setText(newsItem.title);
-            info.setText(newsItem.body);
+                // Lookup view for data population
+                TextView title = convertView.findViewById(R.id.text1);
+                TextView info = convertView.findViewById(R.id.text2);
+                TextView timeText = convertView.findViewById(R.id.time);
+
+                // Populate the data into the template view using the data object
+                title.setText(newsItem.title);
+                info.setText(newsItem.body);
 
 
             /*long diffInMs = Math.abs(System.currentTimeMillis() - (newsItem.time * 1000));
@@ -77,23 +93,23 @@ public class NewsFragment extends Fragment {
             else
                 timeText.setText(Long.toString(hours/24) + " days ago");*/
 
-            final Context context = convertView.getContext();
-            final Resources resources = context.getResources();
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    builder.setToolbarColor(resources.getColor(R.color.colorAccent));
-                    CustomTabsIntent customTabsIntent = builder.build();
-                    customTabsIntent.launchUrl(context, Uri.parse("https://www.epicgames.com" + newsItem.url));
-                }
-            });
+                final Context context = convertView.getContext();
+                final Resources resources = context.getResources();
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                        builder.setToolbarColor(resources.getColor(R.color.colorAccent));
+                        CustomTabsIntent customTabsIntent = builder.build();
+                        customTabsIntent.launchUrl(context, Uri.parse("https://www.epicgames.com" + newsItem.url));
+                    }
+                });
 
-            Glide.with(convertView)
-                    .load(newsItem.image)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into((ImageView) convertView.findViewById(R.id.thumbnail));
-
+                Glide.with(convertView)
+                        .load(newsItem.image)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into((ImageView) convertView.findViewById(R.id.thumbnail));
+            }
             // Return the completed view to render on screen
             return convertView;
         }
