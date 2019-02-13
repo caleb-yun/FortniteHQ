@@ -42,7 +42,7 @@ public class GetShop extends GetData {
                         String name = currentEntry.getString("name");
                         String cost = currentEntry.getString("cost");
                         String imageUrl = currentEntry.getJSONObject("item").getJSONObject("images").getString("background");
-                        String featuredUrl = currentEntry.getJSONObject("item").getJSONObject("images").getJSONObject("featured").getString("background");
+                        String featuredUrl = currentEntry.getJSONObject("item").getJSONObject("images").getJSONObject("featured").getString("transparent");
                         int featured = currentEntry.getInt("featured");
 
                         ShopItem item = new ShopItem(name, cost, imageUrl, featuredUrl, featured);
